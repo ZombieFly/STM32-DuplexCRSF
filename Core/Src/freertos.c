@@ -49,6 +49,8 @@
 
 /* USER CODE END Variables */
 osThreadId TEMP_IMUHandle;
+osThreadId idle_taskHandle;
+osThreadId LED_TASKHandle;
 
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN FunctionPrototypes */
@@ -56,6 +58,8 @@ osThreadId LEDHandle;
 /* USER CODE END FunctionPrototypes */
 
 void imu_temp_control_task(void const * argument);
+void TASK_IDLE(void const * argument);
+void led_task(void const * argument);
 
 extern void MX_USB_DEVICE_Init(void);
 void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
@@ -107,6 +111,14 @@ void MX_FREERTOS_Init(void) {
   osThreadDef(TEMP_IMU, imu_temp_control_task, osPriorityNormal, 0, 512);
   TEMP_IMUHandle = osThreadCreate(osThread(TEMP_IMU), NULL);
 
+  /* definition and creation of idle_task */
+  osThreadDef(idle_task, TASK_IDLE, osPriorityIdle, 0, 128);
+  idle_taskHandle = osThreadCreate(osThread(idle_task), NULL);
+
+  /* definition and creation of LED_TASK */
+  osThreadDef(LED_TASK, led_task, osPriorityLow, 0, 128);
+  LED_TASKHandle = osThreadCreate(osThread(LED_TASK), NULL);
+
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
   /* USER CODE END RTOS_THREADS */
@@ -131,6 +143,42 @@ __weak void imu_temp_control_task(void const * argument)
     osDelay(1);
   }
   /* USER CODE END imu_temp_control_task */
+}
+
+/* USER CODE BEGIN Header_TASK_IDLE */
+/**
+* @brief Function implementing the idle_task thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_TASK_IDLE */
+__weak void TASK_IDLE(void const * argument)
+{
+  /* USER CODE BEGIN TASK_IDLE */
+  /* Infinite loop */
+  for(;;)
+  {
+    osDelay(1);
+  }
+  /* USER CODE END TASK_IDLE */
+}
+
+/* USER CODE BEGIN Header_led_task */
+/**
+* @brief Function implementing the LED_TASK thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_led_task */
+__weak void led_task(void const * argument)
+{
+  /* USER CODE BEGIN led_task */
+  /* Infinite loop */
+  for(;;)
+  {
+    osDelay(1);
+  }
+  /* USER CODE END led_task */
 }
 
 /* Private application code --------------------------------------------------*/

@@ -53,6 +53,9 @@
                   },
                   {
                     "path": "../Core/Src/stm32f4xx_hal_timebase_tim.c"
+                  },
+                  {
+                    "path": "../Core/Src/usart.c"
                   }
                 ],
                 "folders": []
@@ -184,6 +187,9 @@
               },
               {
                 "path": "../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_tim_ex.c"
+              },
+              {
+                "path": "../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_uart.c"
               }
             ],
             "folders": []
@@ -395,11 +401,11 @@
         "bin": "",
         "baseAddr": "",
         "cpuInfo": {
-          "vendor": "null",
-          "cpuName": "null"
+          "vendor": "ST",
+          "cpuName": "STM32F446RC"
         },
         "proType": 1,
-        "speed": 8000,
+        "speed": 50000,
         "otherCmds": ""
       },
       "uploadConfigMap": {},

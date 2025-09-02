@@ -46,6 +46,9 @@ void imu_temp_control_task(void const * argument)
     //pid init  PID初始化
     PID_init(&imu_temp_pid, PID_POSITION, imu_temp_PID, TEMPERATURE_PID_MAX_OUT, TEMPERATURE_PID_MAX_IOUT);
 
+    INS_task_local_handler = xTaskGetHandle(pcTaskGetName(NULL));
+    vTaskDelete(INS_task_local_handler);
+    
     //bmi088 init. bmi088初始化
     while(BMI088_init())
     {
@@ -60,7 +63,7 @@ void imu_temp_control_task(void const * argument)
     }
     //get task handle, must enable 'xTaskGetHandle' in cubeMX
     //获取任务句柄，必须在cubeMX使能'xTaskGetHandle'
-    INS_task_local_handler = xTaskGetHandle(pcTaskGetName(NULL));
+
     imu_start_flag = 1;
     while(1)
     {

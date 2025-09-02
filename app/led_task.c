@@ -11,7 +11,7 @@ void led_task(void const * argument)
     while(1)
     {
         
-        osDelay(100);
+        osDelay(500);
         HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
 
     }
