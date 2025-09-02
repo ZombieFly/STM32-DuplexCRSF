@@ -1,0 +1,16 @@
+# dot files
+/.vscode/launch.json
+/.settings
+/.eide/log
+/.eide.usr.ctx.json
+
+# project out
+/build
+/bin
+/obj
+/out
+/imu_temperature_control_task
+
+# eide template
+*.ept
+*.eide-template
