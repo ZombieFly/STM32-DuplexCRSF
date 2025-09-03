@@ -25,6 +25,15 @@ typedef struct __attribute__((packed)) __crsf_channels_t
     uint8_t armStatus; // optional ExpressLRS 4.0
 } crsf_channels_t;
 
+typedef struct __attribute__((packed)) __crsf_battery_sensor_t
+{
+    signed voltage : 16;      // 25.2V sent as 0x00FC / 252
+    signed current : 16;      // 18.9A sent as 0x00BD / 189
+    unsigned int used_capacity : 24;     // 2199mAh used sent as 0x0897 / 2199
+    uint8_t estimated_remaining_capacity; // 20% battery remaining sent as 0x14 / 20
+} crsf_battery_sensor_t;
+
+
 
 
 /** CRSF地址定义 */

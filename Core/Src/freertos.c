@@ -49,7 +49,7 @@
 
 /* USER CODE END Variables */
 osThreadId TEMP_IMUHandle;
-osThreadId idle_taskHandle;
+osThreadId TELE_TASKHandle;
 osThreadId LED_TASKHandle;
 
 /* Private function prototypes -----------------------------------------------*/
@@ -58,7 +58,7 @@ osThreadId LEDHandle;
 /* USER CODE END FunctionPrototypes */
 
 void imu_temp_control_task(void const * argument);
-void TASK_IDLE(void const * argument);
+void tele_task(void const * argument);
 void led_task(void const * argument);
 
 extern void MX_USB_DEVICE_Init(void);
@@ -111,9 +111,9 @@ void MX_FREERTOS_Init(void) {
   osThreadDef(TEMP_IMU, imu_temp_control_task, osPriorityNormal, 0, 512);
   TEMP_IMUHandle = osThreadCreate(osThread(TEMP_IMU), NULL);
 
-  /* definition and creation of idle_task */
-  osThreadDef(idle_task, TASK_IDLE, osPriorityIdle, 0, 128);
-  idle_taskHandle = osThreadCreate(osThread(idle_task), NULL);
+  /* definition and creation of TELE_TASK */
+  osThreadDef(TELE_TASK, tele_task, osPriorityIdle, 0, 128);
+  TELE_TASKHandle = osThreadCreate(osThread(TELE_TASK), NULL);
 
   /* definition and creation of LED_TASK */
   osThreadDef(LED_TASK, led_task, osPriorityLow, 0, 128);
@@ -145,22 +145,22 @@ __weak void imu_temp_control_task(void const * argument)
   /* USER CODE END imu_temp_control_task */
 }
 
-/* USER CODE BEGIN Header_TASK_IDLE */
+/* USER CODE BEGIN Header_tele_task */
 /**
-* @brief Function implementing the idle_task thread.
+* @brief Function implementing the TELE_TASK thread.
 * @param argument: Not used
 * @retval None
 */
-/* USER CODE END Header_TASK_IDLE */
-__weak void TASK_IDLE(void const * argument)
+/* USER CODE END Header_tele_task */
+__weak void tele_task(void const * argument)
 {
-  /* USER CODE BEGIN TASK_IDLE */
+  /* USER CODE BEGIN tele_task */
   /* Infinite loop */
   for(;;)
   {
     osDelay(1);
   }
-  /* USER CODE END TASK_IDLE */
+  /* USER CODE END tele_task */
 }
 
 /* USER CODE BEGIN Header_led_task */
