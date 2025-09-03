@@ -6,6 +6,8 @@
 #include "main.h"
 
 
+#define __REV24(x) ( ((x) & 0xFF) << 16 | ((x) & 0xFF00) | (((x) >> 16) & 0xFF) )
+
 typedef struct __crsf_boardcast_frame_t
 {
     uint8_t addr;
