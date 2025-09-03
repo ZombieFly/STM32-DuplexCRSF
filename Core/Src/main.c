@@ -96,7 +96,7 @@ int main(void)
   MX_TIM3_Init();
   MX_UART4_Init();
   /* USER CODE BEGIN 2 */
-
+  crsf_init();
 
   /* USER CODE END 2 */
 

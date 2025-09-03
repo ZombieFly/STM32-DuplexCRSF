@@ -120,6 +120,12 @@
           },
           {
             "path": "../app/led_task.c"
+          },
+          {
+            "path": "../app/crsf.c"
+          },
+          {
+            "path": "../app/crsf_utils.h"
           }
         ],
         "folders": []
