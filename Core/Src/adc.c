@@ -63,7 +63,7 @@ void MX_ADC1_Init(void)
   */
   sConfig.Channel = ADC_CHANNEL_0;
   sConfig.Rank = 1;
-  sConfig.SamplingTime = ADC_SAMPLETIME_3CYCLES;
+  sConfig.SamplingTime = ADC_SAMPLETIME_28CYCLES;
   if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
   {
     Error_Handler();
@@ -124,22 +124,5 @@ void HAL_ADC_MspDeInit(ADC_HandleTypeDef* adcHandle)
 }
 
 /* USER CODE BEGIN 1 */
-uint16_t adcx_get_chx_value(ADC_HandleTypeDef *ADCx, uint32_t ch)
-{
-    static ADC_ChannelConfTypeDef sConfig = {0};
-    sConfig.Channel = ch;
-    sConfig.Rank = 1;
-    sConfig.SamplingTime = ADC_SAMPLETIME_84CYCLES;//ADC_SAMPLETIME_3CYCLES;
 
-    if (HAL_ADC_ConfigChannel(ADCx, &sConfig) != HAL_OK)
-    {
-        Error_Handler();
-    }
-
-    HAL_ADC_Start(ADCx);
-
-    HAL_ADC_PollForConversion(ADCx, 10);
-    return (uint16_t)HAL_ADC_GetValue(ADCx);
-
-}
 /* USER CODE END 1 */

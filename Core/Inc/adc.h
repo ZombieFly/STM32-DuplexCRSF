@@ -41,7 +41,7 @@ extern ADC_HandleTypeDef hadc1;
 void MX_ADC1_Init(void);
 
 /* USER CODE BEGIN Prototypes */
-uint16_t adcx_get_chx_value(ADC_HandleTypeDef *ADCx, uint32_t ch);
+
 /* USER CODE END Prototypes */
 
 #ifdef __cplusplus

@@ -99,7 +99,9 @@ int main(void)
   MX_ADC1_Init();
   /* USER CODE BEGIN 2 */
   crsf_init();
-
+  
+  HAL_ADC_Start(&hadc1);
+  HAL_ADC_PollForConversion(&hadc1, HAL_MAX_DELAY);
   /* USER CODE END 2 */
 
   /* Call init function for freertos objects (in cmsis_os2.c) */
