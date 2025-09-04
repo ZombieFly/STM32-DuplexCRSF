@@ -72,18 +72,31 @@ void crsf_rx_idle_callback(const uint16_t size)
 
 uint8_t send_buffer[sizeof(crsf_battery_sensor_t) + 4] = {CRSF_ADDRESS_FLIGHT_CONTROLLER, sizeof(crsf_battery_sensor_t) + 2, CRSF_FRAMETYPE_BATTERY_SENSOR};
 
+float get_key_voltage(void)
+{
+    static uint16_t adcx = 0;
+    float voltage;
+
+    adcx = adcx_get_chx_value(&hadc1, ADC_CHANNEL_0);
+    //(10K Ω + 100K Ω)  / 10K Ω = 11
+    voltage =  (float)adcx * 8.0586080586080586080586080586081e-4f * 11.0f;
+
+    return voltage;
+}
+
 void tele_task(void *argument)
 {
     crsf_battery_sensor_t battery_data = {0};
 
     // 模拟电池数据
-    battery_data.voltage = __REV16(252); // 25.2V
     battery_data.current = __REV16(189); // 18.9A
     battery_data.used_capacity = __REV24(2199); // 1000mAh
     battery_data.estimated_remaining_capacity = 100; // 20%
 
     while (1)
     {
+        battery_data.voltage = __REV16((int16_t)(get_key_voltage() * 10.f));
+
         memcpy(send_buffer + 3, &battery_data, sizeof(battery_data));
         send_buffer[sizeof(send_buffer) - 1] = crsf_calculate_crc(send_buffer + 2, sizeof(battery_data) + 1);
         HAL_UART_Transmit(&CRSF_UART, send_buffer, sizeof(send_buffer), HAL_MAX_DELAY);

@@ -5,6 +5,7 @@
 #include "string.h"
 #include "usart.h"
 #include "main.h"
+#include "adc.h"
 
 #include "crsf_utils.h"
 
