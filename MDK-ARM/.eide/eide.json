@@ -129,6 +129,9 @@
           },
           {
             "path": "../app/crsf_utils.h"
+          },
+          {
+            "path": "../app/tele_task.c"
           }
         ],
         "folders": []
