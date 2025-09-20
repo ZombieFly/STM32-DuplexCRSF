@@ -70,18 +70,31 @@ void crsf_rx_idle_callback(const uint16_t size)
 }
 
 
-uint8_t send_buffer[sizeof(crsf_battery_sensor_t) + 4] = {CRSF_ADDRESS_FLIGHT_CONTROLLER, sizeof(crsf_battery_sensor_t) + 2, CRSF_FRAMETYPE_BATTERY_SENSOR};
+uint8_t send_buffer[64] = {CRSF_ADDRESS_FLIGHT_CONTROLLER};
+
+void send_crsf_packet(const CRSF_FRAMETYPE_t frame_type, const uint8_t * payload, const uint8_t size_of_payload)
+{
+
+    send_buffer[1] = size_of_payload + 2;
+    send_buffer[2] = frame_type;
+    memcpy(&send_buffer[3], payload, size_of_payload);
+    send_buffer[size_of_payload + (4 - 1)] = crsf_calculate_crc(&send_buffer[2], size_of_payload + 1);
+    HAL_UART_Transmit_DMA(&CRSF_UART, send_buffer, size_of_payload + 4);
+}
+
+
 
 float get_vbat_voltage(void)
 {
     uint16_t adcx = 0;
     // 乘数算子
+    // 3.3V / 4096
+    //(10K Ω + 100K Ω)  / 10K Ω = 11
     const float multiplier = (8.0586080586080586080586080586081e-4f * 11.0f);
     float voltage;
 
-    // adcx = adcx_get_chx_value(&hadc1, ADC_CHANNEL_0);
     adcx = (uint16_t)HAL_ADC_GetValue(&hadc1);
-    //(10K Ω + 100K Ω)  / 10K Ω = 11
+    
     voltage =  (float)adcx * multiplier;
 
     HAL_ADC_Start(&hadc1);
@@ -95,19 +108,16 @@ void tele_task(void *argument)
     float voltage;
 
     // 模拟电池数据
-    battery_data.current = __REV16(1145); // 114.5A
-    battery_data.used_capacity = __REV24(2199); // 1000mAh
-    battery_data.estimated_remaining_capacity = 100; // 20%
+    battery_data.current = __REV16(1145);
+    battery_data.estimated_remaining_capacity = 100;
 
     while (1)
     {
         voltage = get_vbat_voltage();
         battery_data.voltage = __REV16((int16_t)((voltage + .05f) * 10.f));
-        battery_data.used_capacity = __REV24((uint32_t)((voltage + .00005f) * 100000.f)); // mAh
+        battery_data.used_capacity = __REV24((uint32_t)((voltage + .00005f) * 100000.f)); // 10000倍电压，用以回传更精细电压数据
 
-        memcpy(send_buffer + 3, &battery_data, sizeof(battery_data));
-        send_buffer[sizeof(send_buffer) - 1] = crsf_calculate_crc(send_buffer + 2, sizeof(battery_data) + 1);
-        HAL_UART_Transmit(&CRSF_UART, send_buffer, sizeof(send_buffer), HAL_MAX_DELAY);
+        send_crsf_packet(CRSF_FRAMETYPE_BATTERY_SENSOR, (uint8_t *)&battery_data, sizeof(battery_data));
         osDelay(1000);
     }
 }

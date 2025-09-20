@@ -56,19 +56,20 @@ typedef struct __attribute__((packed)) __crsf_battery_sensor_t
 
 
 /** CRSF Type定义 */
-
-#define CRSF_FRAMETYPE_GPS                       0x02  // 回传
-#define CRSF_FRAMETYPE_VARIO                     0x07
-#define CRSF_FRAMETYPE_BATTERY_SENSOR            0x08  // 回传
-#define CRSF_FRAMETYPE_BARO_ALTITUDE             0x09  // 回传
-#define CRSF_FRAMETYPE_HEARTBEAT                 0x0B
-#define CRSF_FRAMETYPE_LINK_STATISTICS           0x14
-#define CRSF_FRAMETYPE_RC_CHANNELS_PACKED        0x16
-#define CRSF_FRAMETYPE_SUBSET_RC_CHANNELS_PACKED 0x17
-#define CRSF_FRAMETYPE_LINK_RX_ID                0x1C   // 回传
-#define CRSF_FRAMETYPE_LINK_TX_ID                0x1D   // 回传
-#define CRSF_FRAMETYPE_ATTITUDE                  0x1E   // 回传
-#define CRSF_FRAMETYPE_FLIGHT_MODE               0x21   // 回传
+typedef enum __CRSF_FRAMETYPE_t{
+    CRSF_FRAMETYPE_GPS                       = 0x02,  // 回传
+    CRSF_FRAMETYPE_VARIO                     = 0x07,
+    CRSF_FRAMETYPE_BATTERY_SENSOR            = 0x08,  // 回传
+    CRSF_FRAMETYPE_BARO_ALTITUDE             = 0x09,  // 回传
+    CRSF_FRAMETYPE_HEARTBEAT                 = 0x0B,
+    CRSF_FRAMETYPE_LINK_STATISTICS           = 0x14,
+    CRSF_FRAMETYPE_RC_CHANNELS_PACKED        = 0x16,
+    CRSF_FRAMETYPE_SUBSET_RC_CHANNELS_PACKED = 0x17,
+    CRSF_FRAMETYPE_LINK_RX_ID                = 0x1C,   // 回传
+    CRSF_FRAMETYPE_LINK_TX_ID                = 0x1D,   // 回传
+    CRSF_FRAMETYPE_ATTITUDE                  = 0x1E,   // 回传
+    CRSF_FRAMETYPE_FLIGHT_MODE               = 0x21,   // 回传
+} CRSF_FRAMETYPE_t;
 
 // 后面还有拓展类型待补充
 
