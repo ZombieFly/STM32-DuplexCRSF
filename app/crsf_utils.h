@@ -34,6 +34,16 @@ typedef struct __attribute__((packed)) __crsf_battery_sensor_t
     uint8_t estimated_remaining_capacity; // 20% battery remaining sent as 0x14 / 20
 } crsf_battery_sensor_t;
 
+typedef struct __attribute__((packed)) __crsf_gps_t
+{
+    int32_t latitude;   // Latitude in degrees * 10^7 ( 28.0805804N sent as 0x10BCC1AC / 280805804)
+    int32_t longitude;
+    uint16_t groundspeed; // km/h * 10 ( 88 km/h sent as 0x0370 / 880; 15m/s sent as 0x021C / 540)
+    uint16_t heading; // degrees * 100 (90 degrees sent as 0x2328 / 9000)
+    uint16_t altitude; // meters + 1000 (10m sent as 0x03F2 / 1010; -10m sent as 0x03DE / 990)
+    uint16_t satellites; // number of satellites
+} crsf_gps_t;
+
 
 
 
