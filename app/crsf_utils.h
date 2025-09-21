@@ -7,6 +7,7 @@
 
 
 #define __REV24(x) ( ((x) & 0xFF) << 16 | ((x) & 0xFF00) | (((x) >> 16) & 0xFF) )
+#define __REV32(x) __REV(x)
 
 typedef struct __crsf_boardcast_frame_t
 {
