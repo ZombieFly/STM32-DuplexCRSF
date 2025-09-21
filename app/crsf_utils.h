@@ -37,23 +37,23 @@ typedef struct __attribute__((packed)) __crsf_battery_sensor_t
 
 
 /** CRSF地址定义 */
-
-#define CRSF_ADDRESS_BROADCAST                   0x00  // 广播
-#define CRSF_ADDRESS_USB                         0x10
-#define CRSF_ADDRESS_BLUETOOTH                   0x12  // 蓝牙
-#define CRSF_ADDRESS_TBS_CORE_PNP_PRO            0x80
-#define CRSF_ADDRESS_RESERVED1                   0x8A  // 保留地址1
-#define CRSF_ADDRESS_CURRENT_SENSOR              0xC0  // 电流传感器
-#define CRSF_ADDRESS_GPS                         0xC2  // GPS
-#define CRSF_ADDRESS_TBS_BLACKBOX                0xC4  // TBS黑匣子
-#define CRSF_ADDRESS_FLIGHT_CONTROLLER           0xC8  // 飞行控制器
-#define CRSF_ADDRESS_RESERVED2                   0xCA  // 保留地址2
-#define CRSF_ADDRESS_RACE_TAG                    0xCC  // 比赛标签
-#define CRSF_ADDRESS_RADIO_TRANSMITTER           0xEA  // 无线电发射器
-#define CRSF_ADDRESS_CRSF_RECEIVER               0xEC  // Receiver hardware (TBS Nano RX / RadioMaster RP1)
-#define CRSF_ADDRESS_CRSF_TRANSMITTER            0xEE  // Transmitter module, not handset
-#define CRSF_ADDRESS_ELRS_LUA                    0xEF  // elrs lua
-
+typedef enum __CRSF_ADDRESS_t{
+    CRSF_ADDRESS_BROADCAST                   = 0x00,  // 广播
+    CRSF_ADDRESS_USB                         = 0x10,
+    CRSF_ADDRESS_BLUETOOTH                   = 0x12,  // 蓝牙
+    CRSF_ADDRESS_TBS_CORE_PNP_PRO            = 0x80,
+    CRSF_ADDRESS_RESERVED1                   = 0x8A,  // 保留地址1
+    CRSF_ADDRESS_CURRENT_SENSOR              = 0xC0,  // 电流传感器
+    CRSF_ADDRESS_GPS                         = 0xC2,  // GPS
+    CRSF_ADDRESS_TBS_BLACKBOX                = 0xC4,  // TBS黑匣子
+    CRSF_ADDRESS_FLIGHT_CONTROLLER           = 0xC8,  // 飞行控制器
+    CRSF_ADDRESS_RESERVED2                   = 0xCA,  // 保留地址2
+    CRSF_ADDRESS_RACE_TAG                    = 0xCC,  // 比赛标签
+    CRSF_ADDRESS_RADIO_TRANSMITTER           = 0xEA,  // 无线电发射器
+    CRSF_ADDRESS_CRSF_RECEIVER               = 0xEC,  // Receiver hardware (TBS Nano RX / RadioMaster RP1)
+    CRSF_ADDRESS_CRSF_TRANSMITTER            = 0xEE,  // Transmitter module, not handset
+    CRSF_ADDRESS_ELRS_LUA                    = 0xEF,  // elrs lua
+} CRSF_ADDRESS_t;
 
 /** CRSF Type定义 */
 typedef enum __CRSF_FRAMETYPE_t{
