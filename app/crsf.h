@@ -17,7 +17,6 @@
 
 void crsf_init(void);
 void crsf_rx_idle_callback(const uint16_t size);
-void send_crsf_packet(const CRSF_FRAMETYPE_t frame_type, const uint8_t * payload, const uint8_t size_of_payload);
 
 /** CRC */
 

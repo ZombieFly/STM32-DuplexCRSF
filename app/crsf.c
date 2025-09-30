@@ -72,7 +72,7 @@ void crsf_rx_idle_callback(const uint16_t size)
 }
 
 
-void send_crsf_packet(const CRSF_FRAMETYPE_t frame_type, const uint8_t * payload, const uint8_t size_of_payload)
+void __send_crsf_packet(const CRSF_FRAMETYPE_t frame_type, const uint8_t * payload, const uint8_t size_of_payload)
 {
 
     send_buffer[1] = size_of_payload + 2;
@@ -81,3 +81,6 @@ void send_crsf_packet(const CRSF_FRAMETYPE_t frame_type, const uint8_t * payload
     send_buffer[size_of_payload + (4 - 1)] = crsf_calculate_crc(&send_buffer[2], size_of_payload + 1);
     HAL_UART_Transmit_DMA(&CRSF_UART, send_buffer, size_of_payload + 4);
 }
+
+// 发送函数指针
+void (*send_crsf_packet)(const CRSF_FRAMETYPE_t, const uint8_t *, const uint8_t) = __send_crsf_packet;

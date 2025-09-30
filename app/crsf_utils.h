@@ -10,9 +10,9 @@
 #define __REV32(x) __REV(x)
 
 // 用以支持24位类型，仅用于REV宏
-#define uint24_t uint32_t
+#define int24_t int32_t
 
-#define REV(value, type) __REV##type((uint##type##_t)value)
+#define REV(value, type) __REV##type((int##type##_t)value)
 
 
 typedef struct __crsf_boardcast_frame_t
@@ -127,5 +127,51 @@ __STATIC_INLINE uint8_t crsf_unpack_flight_controller(const crsf_boardcast_frame
 
     return 0;
 };
+
+/** 发送消息包方法 */
+
+// 发送函数指针
+extern void (*send_crsf_packet)(const CRSF_FRAMETYPE_t frame_type, const uint8_t * payload, const uint8_t size_of_payload);
+
+/**
+ * @brief 发送电池传感器数据
+ * @param voltage 电压，V，四舍五入保留一位小数
+ * @param current 电流，A，四舍五入保留一位小数
+ * @param used_capacity 已用容量，mAh，整数
+ * @param estimated_remaining_capacity 估计剩余容量，%，整数
+ */
+__STATIC_INLINE void crsf_send_BatterySensor(const float voltage, const float current, const uint32_t used_capacity, const uint8_t estimated_remaining_capacity)
+{
+    crsf_battery_sensor_t battery_data = {0};
+
+    battery_data.voltage = REV(((voltage + .05f) * 10.f), 16);
+    battery_data.current = REV(((current + .05f) * 10.f), 16);
+    battery_data.used_capacity = REV(used_capacity, 24);
+    battery_data.estimated_remaining_capacity = estimated_remaining_capacity;
+
+    send_crsf_packet(CRSF_FRAMETYPE_BATTERY_SENSOR, (uint8_t *)&battery_data, sizeof(battery_data));
+}
+
+/**
+ * @brief 发送GPS数据
+ * @param latitude 纬度，度，七位小数
+ * @param longitude 经度，度，七位小数
+ * @param altitude 海拔，米，增加1000米后取整
+ * @param groundspeed 地面速度，千米每小时，乘以10取整
+ * @param heading 方向，度，乘以100取整
+ * @param satellites 卫星数量，整数
+ */
+__STATIC_INLINE void crsf_send_GPS(const float latitude, const float longitude, const uint16_t altitude, const float groundspeed, const float heading, const uint16_t satellites)
+{
+    crsf_gps_t gps_data = {.latitude = REV((latitude * 1e7f), 32),
+                           .longitude = REV((longitude * 1e7f), 32),
+                           .altitude = REV(altitude + 1000, 16),
+                           .groundspeed = REV((groundspeed * 10), 16),
+                           .heading = REV((heading * 100), 16),
+                           .satellites = satellites};
+
+    send_crsf_packet(CRSF_FRAMETYPE_GPS, (uint8_t *)&gps_data, sizeof(gps_data));
+}
+
 
 #endif /* __CRSF_UTILS_H__ */
