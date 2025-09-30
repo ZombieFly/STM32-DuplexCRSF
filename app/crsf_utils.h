@@ -9,6 +9,12 @@
 #define __REV24(x) ( ((x) & 0xFF) << 16 | ((x) & 0xFF00) | (((x) >> 16) & 0xFF) )
 #define __REV32(x) __REV(x)
 
+// 用以支持24位类型，仅用于REV宏
+#define uint24_t uint32_t
+
+#define REV(value, type) __REV##type((uint##type##_t)value)
+
+
 typedef struct __crsf_boardcast_frame_t
 {
     uint8_t addr;
